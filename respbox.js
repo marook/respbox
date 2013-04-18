@@ -1,34 +1,45 @@
 var respbox = function(window, document){
-    var layerElement, imageElement, imagePadding, originalImageSize;
+    var layerElement, imageElement, imagePadding, originalImageSize, imageContainer;
 
     imagePadding = 10;
 
     function onCloseLayerClick(){
         originalImageSize = undefined;
-        layerElement.setAttribute('style', 'display:none;');
+        layerElement.parentElement.removeChild(layerElement);
 
         return false;
     }
 
     function prepareLayer(){
-        if(layerElement){
-            return;
+        var closeButton;
+
+        if(!layerElement){
+            layerElement = document.createElement('div');
+            layerElement.setAttribute('class', 'rbLayer');
+            layerElement.onclick = onCloseLayerClick;
+
+            imageContainer = document.createElement('div');
+            layerElement.appendChild(imageContainer);
+
+            closeButton = document.createElement('a');
+            closeButton.setAttribute('class', 'rbLayerClose');
+            closeButton.onclick = onCloseLayerClick;
+            layerElement.appendChild(closeButton);
         }
 
-        layerElement = document.createElement('div');
-        layerElement.setAttribute('class', 'rbLayer');
-        layerElement.onclick = onCloseLayerClick;
+        if(imageElement){
+            imageElement.parentElement.removeChild(imageElement);
+        }
 
         imageElement = document.createElement('img');
         imageElement.setAttribute('class', 'rbImage');
-        layerElement.appendChild(imageElement);
+        imageContainer.appendChild(imageElement);
 
         document.getElementsByTagName('body')[0].appendChild(layerElement);
     }
 
     function updateLayout(){
         if(!originalImageSize){
-            /* should only be set if an image is visible */
             return;
         }
 
