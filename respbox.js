@@ -1,9 +1,10 @@
 var respbox = function(window, document){
-    var layerElement, imageElement, imagePadding;
+    var layerElement, imageElement, imagePadding, originalImageSize;
 
     imagePadding = 10;
 
     function onCloseLayerClick(){
+        originalImageSize = undefined;
         layerElement.setAttribute('style', 'display:none;');
 
         return false;
@@ -25,10 +26,15 @@ var respbox = function(window, document){
         document.getElementsByTagName('body')[0].appendChild(layerElement);
     }
 
-    function layoutImage(originalImageSize){
+    function updateLayout(){
+        if(!originalImageSize){
+            /* should only be set if an image is visible */
+            return;
+        }
+
         var aspectRation = originalImageSize.height / originalImageSize.width;
 
-        var scale = Math.min((window.innerWidth - 2 * imagePadding) / originalImageSize.width, (window.innerHeight - 2 * imagePadding) / originalImageSize.height);
+        var scale = Math.min(1, Math.min((window.innerWidth - 2 * imagePadding) / originalImageSize.width, (window.innerHeight - 2 * imagePadding) / originalImageSize.height));
 
         imageElement.setAttribute('style', 'width:' + originalImageSize.width * scale + 'px');
     }
@@ -38,7 +44,9 @@ var respbox = function(window, document){
 
         imageElement.setAttribute('src', this.getAttribute('href'));
 
-        layoutImage({width: this.getAttribute('targetWidth'), height: this.getAttribute('targetHeight')});
+        originalImageSize = {width: this.getAttribute('targetWidth'), height: this.getAttribute('targetHeight')};
+
+        updateLayout();
 
         layerElement.setAttribute('style', 'display:block;');
 
@@ -64,7 +72,9 @@ var respbox = function(window, document){
 
         apply: apply,
 
-        applyBySelector: applyBySelector
+        applyBySelector: applyBySelector,
+
+        updateLayout: updateLayout
 
     };
 }(window, document);

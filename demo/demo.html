@@ -16,9 +16,14 @@
       <img src="drip_thumb.jpg" />
     </a>
 
+    <a class="respbox" href="macro.jpg" targetWidth="208" targetHeight="193">
+      <img src="macro_thumb.jpg" />
+    </a>
+
     <script type="text/javascript" src="../respbox.js"></script>
     <script>
       respbox.applyBySelector('.respbox');
+      window.onresize = respbox.updateLayout;
     </script>
   </body>
 </html>
