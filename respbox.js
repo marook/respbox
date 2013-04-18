@@ -4,10 +4,26 @@ var respbox = function(window, document){
     imagePadding = 10;
 
     function onCloseLayerClick(){
+        var layerParent;
+
         originalImageSize = undefined;
-        layerElement.parentElement.removeChild(layerElement);
+
+        layerParent = layerElement.parentElement;
+        if(layerParent){
+            layerParent.removeChild(layerElement);
+        }
 
         return false;
+    }
+
+    function detectImageSize(url, success){
+        var img;
+
+        img = new Image();
+
+        img.onload = success;
+
+        img.src = url;
     }
 
     function prepareLayer(){
@@ -38,16 +54,32 @@ var respbox = function(window, document){
         document.getElementsByTagName('body')[0].appendChild(layerElement);
     }
 
-    function updateLayout(){
-        if(!originalImageSize){
-            return;
-        }
-
+    function layoutImage(){
         var aspectRation = originalImageSize.height / originalImageSize.width;
 
         var scale = Math.min(1, Math.min((window.innerWidth - 2 * imagePadding) / originalImageSize.width, (window.innerHeight - 2 * imagePadding) / originalImageSize.height));
 
         imageElement.setAttribute('style', 'width:' + originalImageSize.width * scale + 'px');
+    }
+
+    function updateLayout(){
+        if(!originalImageSize){
+            return;
+        }
+
+        if(!originalImageSize.width){
+            imageElement.setAttribute('style', '');
+
+            detectImageSize(imageElement.getAttribute('src'), function(){
+                originalImageSize.width = this.width;
+                originalImageSize.height = this.height;
+
+                return layoutImage();
+            });
+        }
+        else{
+            return layoutImage();
+        }
     }
 
     function onOpenLayerClick(){
