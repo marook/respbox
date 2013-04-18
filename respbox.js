@@ -36,9 +36,9 @@ var respbox = function(window, document){
     function onOpenLayerClick(){
         prepareLayer();
 
-        imageElement.setAttribute('src', 'leaf.jpg');
+        imageElement.setAttribute('src', this.getAttribute('href'));
 
-        layoutImage({width: 1437, height: 907});
+        layoutImage({width: this.getAttribute('targetWidth'), height: this.getAttribute('targetHeight')});
 
         layerElement.setAttribute('style', 'display:block;');
 
