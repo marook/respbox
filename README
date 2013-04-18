@@ -1,13 +1,25 @@
 respbox - a responsive lightbox for images
 
 1) Demo
-2) Usage
+2) Browser Support
+3) Usage
 
 
 ------------------------------------------------------------------------
 Demo
 
 Visit http://marook.github.io/respbox/demo/demo.html
+
+
+------------------------------------------------------------------------
+Browser Support
+
+Currently all major modern browsers are supported:
+
+* Firefox
+* Google Chrome
+* Android (>= v4.0)
+* Internet Explorer (>= 9.0)
 
 
 ------------------------------------------------------------------------
@@ -36,3 +48,12 @@ after window resize you have to make sure the respbox.updateLayout() function is
 called after every window resize:
 
 window.onresize = respbox.updateLayout;
+
+If you use jQuery you should use the following statement instead:
+
+$(window).bind('resize', respbox.updateLayout);
+
+Also you should instruct mobile browsers to use the device width as viewport
+width. You can do this by putting the following statement into the <head>:
+
+<meta name="viewport" content="width=device-width"/>
