@@ -1,0 +1,31 @@
+respbox - a responsible lightbox for images
+
+1) Usage
+
+
+------------------------------------------------------------------------
+Usage
+
+To use respbox you have to respbox.css and respbox.js to your page. The respbox
+styles should be added to the <head> element of your page:
+
+<link rel="stylesheet" type="text/css" href="../respbox.css" />
+
+I recommend adding the respbox script include to the end of your <body>:
+
+<script type="text/javascript" src="respbox.js"></script>
+
+Any image link can be displayed via respbox. Here's a simple example of such a
+link:
+
+<a class="myImageLinks" href="my_image.jpg" targetWidth="1024" targetHeight="786">image thumbnail goes here</a>
+
+Now you only have to tell respbox it should handle those links:
+
+respbox.applyBySelector('.myImageLinks');
+
+respbox scales images to fit your window size. To enable correct scaling even
+after window resize you have to make sure the respbox.updateLayout() function is
+called after every window resize:
+
+window.onresize = respbox.updateLayout;
