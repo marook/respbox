@@ -1,5 +1,7 @@
-var respbox = function(document){
-    var layerElement, imageElement;
+var respbox = function(window, document){
+    var layerElement, imageElement, imagePadding;
+
+    imagePadding = 10;
 
     function onCloseLayerClick(){
         layerElement.setAttribute('style', 'display:none;');
@@ -23,11 +25,20 @@ var respbox = function(document){
         document.getElementsByTagName('body')[0].appendChild(layerElement);
     }
 
+    function layoutImage(originalImageSize){
+        var aspectRation = originalImageSize.height / originalImageSize.width;
+
+        var scale = Math.min((window.innerWidth - 2 * imagePadding) / originalImageSize.width, (window.innerHeight - 2 * imagePadding) / originalImageSize.height);
+
+        imageElement.setAttribute('style', 'width:' + originalImageSize.width * scale + 'px');
+    }
+
     function onOpenLayerClick(){
         prepareLayer();
 
         imageElement.setAttribute('src', 'leaf.jpg');
-        imageElement.setAttribute('style', 'width:900px');
+
+        layoutImage({width: 1437, height: 907});
 
         layerElement.setAttribute('style', 'display:block;');
 
@@ -56,4 +67,4 @@ var respbox = function(document){
         applyBySelector: applyBySelector
 
     };
-}(document);
+}(window, document);

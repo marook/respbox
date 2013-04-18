@@ -1,5 +1,5 @@
 .rbLayer {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -9,5 +9,6 @@
 
 .rbImage {
     display: block;
-    margin: 0 auto;
+    /* top margin must match var 'imagePadding' from respbox.js */
+    margin: 10px auto 0 auto;
 }
