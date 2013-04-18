@@ -1,7 +1,35 @@
-var respbox = function(){
+var respbox = function(document){
+    var layerElement, imageElement;
+
+    function onCloseLayerClick(){
+        layerElement.setAttribute('style', 'display:none;');
+
+        return false;
+    }
+
+    function prepareLayer(){
+        if(layerElement){
+            return;
+        }
+
+        layerElement = document.createElement('div');
+        layerElement.setAttribute('class', 'rbLayer');
+        layerElement.onclick = onCloseLayerClick;
+
+        imageElement = document.createElement('img');
+        imageElement.setAttribute('class', 'rbImage');
+        layerElement.appendChild(imageElement);
+
+        document.getElementsByTagName('body')[0].appendChild(layerElement);
+    }
 
     function onOpenLayerClick(){
-        alert('x');
+        prepareLayer();
+
+        imageElement.setAttribute('src', 'leaf.jpg');
+        imageElement.setAttribute('style', 'width:900px');
+
+        layerElement.setAttribute('style', 'display:block;');
 
         return false;
     }
@@ -28,4 +56,4 @@ var respbox = function(){
         applyBySelector: applyBySelector
 
     };
-}();
+}(document);
